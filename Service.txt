@@ -1,0 +1,34 @@
+Networking:
+
+All the pods inside a container are assigned to local n/w with address 10.244.0.0. all the pods get an IP address say 10.244.0.2 etc..
+
+K8S does not handle networking between nodes in multi node clusters. We have to set up networking using external tools (Flanel/cecium/NSX/VMWare etc) to avoid IP conflict. 
+
+Services:
+Services enable communication between various components with and outside apps
+Helps connect apps with other apps or users
+Viz. services enable connectivity between groups of PODs 
+
+NodePort: Inside the node, there is a service (object like pod/replicaset...) that listens to a port on the node and relays to communication to a port on the pod
+
+NodePort: service that makes an internal service on a POD accessible on a port on the node. 
+helps route external traffic from high port on a node to PODS. 
+each cluster gets an external IP that is used by all nodes in the cluster.
+
+ClusterIP: service that create a virtual IP inside the cluster to enable communication 
+between different services such as front end servers and backend servers (default service type)
+
+LoadBalancer: service that creates a load balancer for our application, in supported cloud provide (AWS/GCP/Azure). 
+has support to integrate with the native load balancer of the cloud. in supported cloid platforms, use the type as Load balancer instead of NodePort.
+in supported platform like virtual box, it would have the same effect as NodePort
+helps load balnce customer traffic to the cluster IPs on
+
+NODEPORT: 
+Port on the POD (target Port)
+Port on the Service (Port)
+Port on the node (Node Port) that is available external to the node
+Use selectors and lables to connect the ports of the pods to service
+if morethan one POD is selected, it automatically (using a random algorithm) loadbalances between the pods
+if the pods span across nodes in a cluster, K8s automatically scales the services across nodes
+
+

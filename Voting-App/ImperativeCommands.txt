@@ -1,0 +1,23 @@
+1  kubectl get pods
+2  history
+3  kubectl expose pod redis --port=6379 --name=redis-service --dry-run=client -o yaml
+4  kubectl create service clusterip redis-service --tcp=6379:6479 --dry-run=client -o yaml
+5  kubectl expose pod redis --port=6379 --name=redis-service
+6  clear
+7  kubectl create deployment webapp --image=kodekloud/webapp-color --replicas=3 --dry-run=3 -o yaml 
+8  kubectl create deployment webapp --image=kodekloud/webapp-color --replicas=3 --dry-run=client -o yaml 
+9  kubectl create deployment webapp --image=kodekloud/webapp-color --replicas=3 
+10  kubectl get pods,deploy
+11  clear
+12  kubectl run custom-nginx --image=nginx --port=8080 --dry-run=client -o yaml
+13  kubectl run custom-nginx --image=nginx --port=8080
+14  kubectl create namespace dev-ns --dry-run=client -o yaml
+15  kubectl create namespace dev-ns
+16  clear
+17  kubectl create deployment redis-deploy --image=redis --replicas=2 --namespace=dev-ns --dry-run=client -o yaml
+18  kubectl create deployment redis-deploy --image=redis --replicas=2 --namespace=dev-ns
+19  kubectl get pods -namespace=dev-ns
+20  kubectl get pods --namespace=dev-ns
+21  clear
+22  history
+kubectl run custom-nginx --image=nginx --port=8080 --expose

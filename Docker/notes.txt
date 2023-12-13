@@ -1,0 +1,42 @@
+docker run ubuntu ## it runs an instance of ubuntu image and exits immediately
+## containers are ment to run a specific task or process (say host a web server/app server/DB). they are not ment host a OS
+## if the process is stopped/fails the containers life cycle ends
+docker run ubuntu [COMMAND] ## COMMAND (Command line) Overrides the the default comand in the Dockerfile of ubuntu
+docker run ubuntu sleep 5 ## it sleeps for 5 seconds
+
+##to make the chnge to add the sleep command permanent we need to create a docker image that has teh sleep command in the Dockerfile. 
+
+```
+FROM ubuntu
+CMD sleep 5  ## CMD command param1 / CMD ["command", "param1"] (in this JSON format the first element in the array should be an executable.)
+```
+
+docker build -t ubuntu-sleeper:myTag . ## in -t text after : is TAG (optional value)
+docker run ubuntu-sleeper:myTag ## cintainer runs for 5 seconds and then exits. 
+docker run ubuntu-sleeper sleep 100 ## overiding the command in the image and asking it sleep for 100s. 
+##not soo friendly and defeats the purpose of creating the image
+
+## Alternatively use ENTRYPOINT instead of CMD while building the image.  
+
+```
+FROM ubuntu
+ENTRYPOINT ["sleep"]   ## in the ENTRYPOINT instruction we can specify the program when to run when the container starts. 
+```
+
+docker build -t ubuntu-sleeper-param:myTag .
+docker build -t ubuntu-sleeper-param 10 ## whatever param (10) we pass in the command line for `docker run` will be appended to the command in ENTRPOINT instruction
+
+## if we misss to pass the parameter, the docker run will fail with error parameter missing.  
+
+```
+FROM ubuntu
+ENTRYPOINT ["sleep"]   ## in the ENTRYPOINT instruction we can specify the program when to run when the container starts. 
+CMD ["5"] ## pass default param value, which will be used if we do not override the parameter in docker run command
+
+## Both ENTRYPOINT and CMD instructions should be in JSON format
+```
+docker run ubuntu-sleeper-param:myTag 1000
+docker run ubuntu-sleeper-param:myTag # no param passed, uses the default value 5 in image
+docker run --entrypoint sleep2.0 ubuntu-sleeper-param:myTag 500 ## to override the ENTRYPOINT command in image
+docker ps ## list the containers (running)
+docker ps -a ## list the containers (running and exited)

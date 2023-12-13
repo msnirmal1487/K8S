@@ -1,0 +1,17 @@
+# to add taint on node
+# kubectl taint node node1 app= blue:NoSchedule
+apiVersion: v1
+kind: Pod
+metadata:
+  name: web-pod
+spec:
+  containers:
+    -  name: ubuntu
+       image: ubuntu
+       command: ["sleep", "3600"]
+  tolerations:
+    - key: "app"
+      operator: "Equal"
+      value: "blue"
+      effect: "NoSchedule"
+       

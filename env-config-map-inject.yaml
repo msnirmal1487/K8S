@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: myapp
+  labels:
+    name: myapp
+spec:
+  containers:
+  - name: myapp
+    image: redis
+    envFrom:
+      - configMapRef:
+          name: app-config
+  - name: myapp1
+    env:
+      - name: APP_COLOR
+        valueFrom:
+          configMapKeyRef:
+            key: APP_COLOR
+            name: app-config

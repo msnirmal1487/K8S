@@ -1,0 +1,23 @@
+How to create my own image
+
+1) OS - Ubuntu
+2) Update apt repo
+3) Install dependencies using apt
+4) Install python dependencies using pip
+5) Copy source code to /opt folder
+6) Run the web server using flask command
+
+
+to build the image
+docker build -t manirmal1487/webapp-color .
+
+to push the image
+msnirmal/my-custom-app
+
+Docker creates images in Layered Architecture
+
+Running docker build command we see the various steps involved and results of each task
+all the layers built are cached, so the Layered Architecture helps to restart from the particular step if it fails'
+As new steps are added to docker build or fixing the Dockerbuild file afer failure, the docker build continues from the cached step
+
+cat /etc/*release* # to find the Linux version

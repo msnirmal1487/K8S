@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: myapp
+  labels:
+    name: myapp
+spec:
+  containers:
+  - name: myapp
+    image: redis
+    env:
+      - name: APP_COLOR
+        value: pink
+      - name: ARG2
+        value: arg2-value

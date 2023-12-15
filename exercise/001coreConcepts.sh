@@ -3,6 +3,16 @@
 alias k=kubectl
 alias 'kd=kubectl --dry-run=client -o=yaml'
 
+export do='--dry-run=client -o=yaml'
+# k create ns myns $do # usage
+
+# to get the linux release details
+cat /etc/*release*
+ls /etc/*release*
+
+# yum, apt-get # possibel pakage managers
+
+
 k options # to get the list of global command-line options (applies to all commands).
 k version --client -o=yaml # get kubectl client version
 k version -o=yaml # get kubectl client and server version 
@@ -42,9 +52,56 @@ k proxy -p=8080 &
 k get pod <pod name> --template='{{.spec.containers}}{{"\n"}}' # GO Template to print container array 
 K get pod <pod name> --template='{{(index .spec.containers 0)}}{{"\n"}}' # GO Template to print first element of container array
 
-
+k get pod nginx -o jsonpath='{.spec.containers[].image}{"\n"}' #JSONPATh template
+k get pod nginx --template='{{(index .spec.containers 0).image}}{{"\n"}}' # Corresponding GO Template
 
 # Forward local port (port on the machine where kubectl client is executed) to a port on pod {[LOCAL_PORT:]REMOTE_PORT}
 k port-forward mongo-7d96cb4cf-cl47r 28015:27017 & # (not mentioning local port system assigns a higher number port arandomly)
 # connect to mongo shell in pod from client on port 28015
 mongosh --port 28015
+
+k run 
+k run busybox --image=busybox --command --restart=Never -it --rm -- env
+k logs <pod name> # Get the logs with starting the pod
+
+k set # to edit resources
+k set image pod/<pod-name> # to edit the POD
+
+kd run b1 --image=busybox --command -- echo 'hello world' # overrides the ENTRYPOINT command and its arguments
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: b1
+  name: b1
+spec:
+  containers:
+  - command:
+    - echo
+    - hello world
+    image: busybox
+    name: b1
+    resources: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}
+kd run b1 --image=busybox -- echo 'hello world' # overrides the parameters to command in ENTRYPOINT 
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: b1
+  name: b1
+spec:
+  containers:
+  - args:
+    - echo
+    - hello world
+    image: busybox
+    name: b1
+    resources: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}

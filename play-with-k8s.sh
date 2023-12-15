@@ -32,10 +32,11 @@ kubeadm join 192.168.0.8:6443 --token <<SOME TOKEN>> \
         --discovery-token-ca-cert-hash <<some Hash>>
  ## After kubeadm iit command is run copy the token and discovery token hash. 
  
- ##if missed get token using 
-    kubeadm token list
+ ##if missed, get token using 
+  kubeadm token list
 
-## print the discovery token hash using  (need to install openssl and sha256sum). get the output of the command use in format "sha256:<<SHASUM value>>"
+## print the discovery token hash using  (need to install openssl and sha256sum). 
+## get the output of the command use in format "sha256:<<SHASUM value>>"
 openssl x509 -in /etc/kubernetes/pki/ca.crt -noout -pubkey | openssl rsa -pubin -outform DER 2>/dev/null | sha256sum | cut -d' ' -f1
 
  ### you can generate a new token and get the hash using (the whole command to join)

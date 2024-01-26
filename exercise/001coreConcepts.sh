@@ -55,6 +55,13 @@ K get pod <pod name> --template='{{(index .spec.containers 0)}}{{"\n"}}' # GO Te
 k get pod nginx -o jsonpath='{.spec.containers[].image}{"\n"}' #JSONPATh template
 k get pod nginx --template='{{(index .spec.containers 0).image}}{{"\n"}}' # Corresponding GO Template
 
+# count the number of results
+k get pods -n kube-system -o jsonpath="{range .items[*]}{.metadata.name}{'\n'}"|less -N
+# to get top N lines
+k get rs -o yaml|head -20
+# to get bottom N lines
+k get rs -o yaml|tail -20
+
 # Forward local port (port on the machine where kubectl client is executed) to a port on pod {[LOCAL_PORT:]REMOTE_PORT}
 k port-forward mongo-7d96cb4cf-cl47r 28015:27017 & # (not mentioning local port system assigns a higher number port arandomly)
 # connect to mongo shell in pod from client on port 28015
